@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,8 @@ public class CountryInputActivity extends AppCompatActivity implements View.OnCl
             case R.id.button3:
                 Intent intentMain = new Intent(CountryInputActivity.this,
                         StatisticSelectorActivity.class);
+                // If choosing to select a statistic, capture the typed country and pass it along.
+                intentMain.putExtra("Chosen Country", "'" + ((TextView)findViewById(R.id.countryInput)).getText() + "'");
                 startActivity(intentMain);
                 Log.i("Content ", " StatisticSelectorActivity ");
                 break;

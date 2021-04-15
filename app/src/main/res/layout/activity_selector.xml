@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <RadioGroup
+        android:id="@+id/selectionGroup"
         android:layout_width="408dp"
         android:layout_height="207dp"
         android:layout_marginTop="173dp"
@@ -14,19 +15,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/climatebutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Climate" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/elevationbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Altitude" />
+            android:text="Elevation" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/languagebutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Language" />
@@ -40,6 +41,7 @@
         android:layout_marginLeft="158dp"
         android:layout_marginBottom="219dp"
         android:text="Submit"
+        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

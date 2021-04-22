@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
      /* R.id.climatebutton == 1000151
@@ -49,7 +50,7 @@ public class ResultsActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         data = db.getSimilarItems(this,chosenCountry,chosenStat);
-        adapter = new MyAdapter(this, data);
+        adapter = new MyAdapter(this, (LinkedList) data);
         recyclerView.setAdapter(adapter);
     }
 

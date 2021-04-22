@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/climatebutton"
+            android:id="@+id/temperaturebutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Climate" />

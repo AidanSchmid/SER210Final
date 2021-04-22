@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -128,27 +129,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {}
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table countries");
+        try {
+            createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // This method is used to get the requisite information from the database.
     public List<String> getSimilarItems(Activity activity, String name, int stat) {
         sqLiteOpenHelper = new DatabaseHelper(activity);
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
 
-        List<String> list = new ArrayList<>();
+        List<String> list = new LinkedList<>();
 
         String query = "SELECT * FROM " + COUNTRIES + " WHERE name IS " + name;
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
-            list.add("Countries with a similar elevation to the one you chose:");
-            int elevation = cursor.getInt(4); // Only elevation for now.
-            String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE altitude BETWEEN "
-                + (elevation-200) + " AND " + (elevation+200);
-            Cursor secondCursor = db.rawQuery(secondQuery, null);
-            if (secondCursor.moveToFirst()) {
-                do {
-                    list.add(secondCursor.getString(5) + ", with an average elevation of " + secondCursor.getInt(4) + " ft");
-                } while (secondCursor.moveToNext());
+            if (stat == R.id.elevationbutton) { // User selected elevation, query again over elevation range.
+                list.add("Countries with a similar elevation to the one you chose:");
+                int elevation = cursor.getInt(4);
+                String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE altitude BETWEEN "
+                    + (elevation-200) + " AND " + (elevation+200);
+                Cursor secondCursor = db.rawQuery(secondQuery, null);
+                if (secondCursor.moveToFirst()) {
+                    do {
+                        list.add(secondCursor.getString(5) + ", with an average elevation of "
+                            + secondCursor.getInt(4) + " ft");
+                    } while (secondCursor.moveToNext());
+                }
+            } else if (stat == R.id.languagebutton) { // User selected language, query same language.
+                list.add("Countries that speak the same language as the one you chose:");
+                String lang = cursor.getString(2);
+                String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE language = '" + lang + "'";
+                Cursor secondCursor = db.rawQuery(secondQuery, null);
+                if (secondCursor.moveToFirst()) {
+                    do {
+                        list.add(secondCursor.getString(5));
+                    } while (secondCursor.moveToNext());
+                }
+            } else if (stat == R.id.temperaturebutton) {
+                list.add("Countries with a similar temperature to the one you chose:");
+                int temperature = cursor.getInt(3);
+                String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE temperature BETWEEN "
+                        + (temperature-5) + " AND " + (temperature+5);
+                Cursor secondCursor = db.rawQuery(secondQuery, null);
+                if (secondCursor.moveToFirst()) {
+                    do {
+                        list.add(secondCursor.getString(5) + ", with an average yearly " +
+                            "temperature of " + secondCursor.getInt(3) + " degrees Celsius");
+                    } while (secondCursor.moveToNext());
+                }
             }
         } else list.add("No results found for that name.");
         return list;

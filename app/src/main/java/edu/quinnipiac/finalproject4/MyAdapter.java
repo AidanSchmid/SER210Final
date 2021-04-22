@@ -1,66 +1,54 @@
 package edu.quinnipiac.finalproject4;
 
-// Code wholly taken from geeksforgeeks again. I'll probably replace this with the nice, crisp Fallscrier cardviews class later.
+// Lifted from Fallscrier, which in turn lifted from LS07.
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
 
-public class MyAdapter
-        extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+import java.util.LinkedList;
 
-    private List<String> data;
-    Activity activity;
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.mViewHolder> {
+    private final LinkedList<String> mList;
+    private LayoutInflater mInflater;
 
-    public MyAdapter(Activity activity,
-                     List<String> data)
-    {
-        this.data = data;
-        this.activity = activity;
+    public MyAdapter(Context context, LinkedList<String> dataList) {
+        mInflater = LayoutInflater.from(context);
+        this.mList = dataList;
     }
-
-    // This method is used to attach
-    // custom layout to the recycler view
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        LayoutInflater LI = activity.getLayoutInflater();
-        View vw = LI.inflate(R.layout.layout_recycler_item, null);
-        return new ViewHolder(vw);
-    }
-
-    // This method is used to set the action
-    // to the widgets of our custom layout.
-    @Override
-    public void onBindViewHolder(
-            @NonNull ViewHolder holder,
-            int position)
-    {
-        holder.topic_name
-                .setText(data.get(position));
+    public mViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View mItemView = mInflater.inflate(R.layout.layout_recycler_item,
+                parent, false);
+        return new mViewHolder(mItemView, this);
     }
 
     @Override
-    public int getItemCount()
-    {
-        return data.size();
+    public void onBindViewHolder(mViewHolder holder, int position) {
+        // Retrieve the data for that position, then...
+        String mTextCurrent = mList.get(position);
+        // Add the text to the card view's contained text view.
+        ((TextView) holder.CardItemView.findViewById(R.id.textView)).setText(mTextCurrent);
     }
 
-    class ViewHolder
-            extends RecyclerView.ViewHolder {
-        TextView topic_name;
-        public ViewHolder(View itemView)
-        {
+    @Override
+    public int getItemCount() {
+        return  mList.size();
+    }
+
+    class mViewHolder extends RecyclerView.ViewHolder {
+        public CardView CardItemView;
+        MyAdapter mAdapter;
+
+        public mViewHolder(View itemView, MyAdapter adapter) {
             super(itemView);
-            this.topic_name
-                    = itemView.findViewById(R.id.textView);
+            CardItemView = itemView.findViewById(R.id.card_in_view);
+            this.mAdapter = adapter;
         }
     }
 }

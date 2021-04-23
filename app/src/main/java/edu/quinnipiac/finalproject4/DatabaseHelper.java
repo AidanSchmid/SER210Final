@@ -129,18 +129,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {}
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table countries");
-        try {
-            createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     // This method is used to get the requisite information from the database.
-    public List<String> getSimilarItems(Activity activity, String name, int stat) {
-        sqLiteOpenHelper = new DatabaseHelper(activity);
+    public List<String> getSimilarItems(Context c, String name, int stat) {
+        sqLiteOpenHelper = new DatabaseHelper(c);
         SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
 
         List<String> list = new LinkedList<>();
@@ -184,6 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         } else list.add("No results found for that name.");
+        db.close();
         return list;
     }
 }

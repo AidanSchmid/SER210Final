@@ -24,6 +24,7 @@
         android:layout_marginLeft="160dp"
         android:layout_marginBottom="104dp"
         android:backgroundTint="@color/black"
+        android:textColor="@color/white"
         android:onClick="onClick"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,11 +44,11 @@
             android:id="@+id/temperaturebutton"
             android:layout_width="match_parent"
             android:layout_height="139dp"
-            android:fontFamily="cursive"
-            android:textSize="50dp"
             android:buttonTint="@color/white"
+            android:fontFamily="cursive"
             android:text="Climate"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="50dp" />
 
         <RadioButton
             android:id="@+id/elevationbutton"

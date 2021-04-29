@@ -4,17 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".FavoritesFragment">>
 
     <TextView
         android:id="@+id/textViewFavorites"
-        android:layout_width="400dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="37dp"
-        android:text="Favorites!"
+        android:layout_width="369dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="22dp"
         android:textSize="30dp"
+        android:text="Favorites!"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,17 +26,4 @@
         android:layout_marginTop="80dp"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/textViewFavorites" />
-
-    <!-- <Button
-        android:id="@+id/button5"
-        android:layout_width="75dp"
-        android:layout_height="38dp"
-        android:text="Favorite This Location"
-        android:textSize="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.872"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="onFavoritesButtonClick"/> !-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,6 @@ package edu.quinnipiac.finalproject4;
 
 // Code mostly take from https://www.geeksforgeeks.org/how-to-pre-populate-database-in-android-using-sqlite-database/
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Constructor
      * Takes and keeps a reference of the passed context in order
-     * to access the application assets and resources. */
+     * to access the application assets and resources.
+     * @param context*/
     public DatabaseHelper(Context context)
     {
 

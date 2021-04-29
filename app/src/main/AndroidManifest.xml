@@ -16,10 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CountryInputActivity"></activity>
-        <activity android:name=".StatisticSelectorActivity"></activity>
-        <activity android:name=".Favorites"></activity>
-        <activity android:name=".ResultsActivity"></activity>
     </application>
 
 </manifest>

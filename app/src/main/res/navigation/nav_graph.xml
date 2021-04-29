@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="edu.quinnipiac.finalproject4.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_countryInputFragment"
+            app:destination="@id/countryInputFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/countryInputFragment"
+        android:name="edu.quinnipiac.finalproject4.CountryInputFragment"
+        android:label="fragment_country_input"
+        tools:layout="@layout/fragment_country_input" >
+        <action
+            android:id="@+id/action_countryInputFragment_to_statisticSelectorFragment"
+            app:destination="@id/statisticSelectorFragment" />
+        <action
+            android:id="@+id/action_countryInputFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="edu.quinnipiac.finalproject4.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="edu.quinnipiac.finalproject4.ResultsFragment"
+        android:label="fragment_results"
+        tools:layout="@layout/fragment_results" />
+    <fragment
+        android:id="@+id/statisticSelectorFragment"
+        android:name="edu.quinnipiac.finalproject4.StatisticSelectorFragment"
+        android:label="fragment_statistic_selector"
+        tools:layout="@layout/fragment_statistic_selector" >
+        <action
+            android:id="@+id/action_statisticSelectorFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment" />
+    </fragment>
+</navigation>

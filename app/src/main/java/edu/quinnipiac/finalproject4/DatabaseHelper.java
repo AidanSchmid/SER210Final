@@ -179,4 +179,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return list;
     }
+
+    public void setFavorite(String location) {
+        myDataBase.rawQuery("UPDATE " + COUNTRIES + " SET favorite = TRUE WHERE name = " + location,null).close();
+    }
+
+    public List<String> getFavorites() {
+        List<String> faveList = new LinkedList<>();
+        String query = "SELECT * FROM " + COUNTRIES + " WHERE favorite IS 1";
+        Cursor cursor = myDataBase.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                faveList.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        return faveList;
+    }
 }

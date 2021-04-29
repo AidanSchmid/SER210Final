@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +27,9 @@ public class CountryInputFragment extends Fragment implements View.OnClickListen
     private String mParam1;
     private String mParam2;
     NavController navController = null;
+
+    private View ownView;
+
     public CountryInputFragment() {
         // Required empty public constructor
     }
@@ -51,7 +55,8 @@ public class CountryInputFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_country_input, container, false);
+        ownView = inflater.inflate(R.layout.fragment_country_input, container, false);
+        return ownView;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +77,10 @@ public class CountryInputFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button3:
-                navController.navigate(R.id.action_countryInputFragment_to_statisticSelectorFragment);
+                Bundle b = new Bundle();
+                b.putString(ARG_PARAM1,"'" + ((EditText) ownView.findViewById(R.id.countryInput)).getText().toString() + "'");
+                b.putString(ARG_PARAM2,"blank");
+                navController.navigate(R.id.action_countryInputFragment_to_statisticSelectorFragment,b);
                 break;
             case R.id.button2:
                 navController.navigate(R.id.action_countryInputFragment_to_favoritesFragment);

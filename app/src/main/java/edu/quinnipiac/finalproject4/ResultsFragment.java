@@ -1,10 +1,13 @@
 package edu.quinnipiac.finalproject4;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +20,7 @@ import java.util.List;
  * Use the {@link ResultsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ResultsFragment extends Fragment {
+public class ResultsFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,13 +29,13 @@ public class ResultsFragment extends Fragment {
 
     private static RecyclerView.Adapter adapter;
     private static RecyclerView recyclerView;
-    public static List<String> data;
-    String chosenCountry;
-    int chosenStat;
-    DatabaseHelper db;
+
+    private DatabaseListener listener;
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private int mParam2;
+
+    private View ownView;
 
     public ResultsFragment() {
         // Required empty public constructor
@@ -61,31 +64,44 @@ public class ResultsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getInt(ARG_PARAM2);
+            System.out.println(mParam1 + ", " + mParam2);
         }
-
-//        db = new DatabaseHelper(this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        data = new ArrayList<>();
-//        fetchData();
-//    }
-//    public void fetchData() {
-//        db = new DatabaseHelper(this);
-//        try {
-//            db.createDataBase();
-//            db.openDataBase();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        data = db.getSimilarItems(this, chosenCountry, chosenStat);
-//        adapter = new MyAdapter(this, (LinkedList) data);
-//        recyclerView.setAdapter(adapter);
     }
+
+    public interface DatabaseListener {
+        MyAdapter fetchData(String param1, int param2);
+
+        void setFavorite(String param1);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof DatabaseListener) {
+            listener = (DatabaseListener) context;
+        } else throw new ClassCastException(context.toString() + " doesn't support the database.");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_results, container, false);
+        ownView = inflater.inflate(R.layout.fragment_results, container, false);
+        return ownView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = ownView.findViewById(R.id.results_recycler);
+        adapter = listener.fetchData(mParam1, mParam2);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    }
+
+    @Override
+    public void onClick(View v) {
+        listener.setFavorite(ARG_PARAM1);
     }
 }

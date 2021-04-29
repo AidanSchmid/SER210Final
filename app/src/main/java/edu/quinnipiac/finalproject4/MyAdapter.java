@@ -23,7 +23,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.mViewHolder> {
     }
     @Override
     public mViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View mItemView = mInflater.inflate(R.layout.fragment_results,
+        View mItemView = mInflater.inflate(R.layout.layout_recycler_item,
                 parent, false);
         return new mViewHolder(mItemView, this);
     }

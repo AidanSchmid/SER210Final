@@ -1,13 +1,20 @@
 package edu.quinnipiac.finalproject4;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FavoritesFragment#newInstance} factory method to
@@ -20,9 +27,15 @@ public class FavoritesFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static RecyclerView.Adapter adapter;
+    private static RecyclerView recyclerView;
+
+    private getFavoritesListener listener;
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private int mParam2;
+
+    private View ownView;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -51,14 +64,38 @@ public class FavoritesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getInt(ARG_PARAM2);
+            System.out.println(mParam1 + ", " + mParam2);
         }
+    }
+
+    public interface getFavoritesListener {
+        MyAdapter getFavorites();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof getFavoritesListener) {
+            listener = (getFavoritesListener) context;
+        } else throw new ClassCastException(context.toString() + " doesn't support the database.");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        ownView = inflater.inflate(R.layout.fragment_favorites, container, false);
+        return ownView;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = ownView.findViewById(R.id.faves_recycler);
+        adapter = listener.getFavorites();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    }
+
 }

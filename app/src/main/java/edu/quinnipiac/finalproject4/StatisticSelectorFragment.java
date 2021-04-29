@@ -33,6 +33,9 @@ public class StatisticSelectorFragment extends Fragment implements View.OnClickL
     private String mParam2;
     private String chosenCountry;
     NavController navController = null;
+
+    private View ownView;
+
     public StatisticSelectorFragment() {
         // Required empty public constructor
     }
@@ -78,13 +81,17 @@ public class StatisticSelectorFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_statistic_selector, container, false);
+        ownView = inflater.inflate(R.layout.fragment_statistic_selector, container, false);
+        return ownView;
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button4:
-                navController.navigate(R.id.action_statisticSelectorFragment_to_resultsFragment);
+                Bundle b = new Bundle();
+                b.putString(ARG_PARAM1, mParam1);
+                b.putInt(ARG_PARAM2,((RadioGroup) ownView.findViewById(R.id.selectionGroup)).getCheckedRadioButtonId());
+                navController.navigate(R.id.action_statisticSelectorFragment_to_resultsFragment,b);
                 break;
 
         }

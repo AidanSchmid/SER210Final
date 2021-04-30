@@ -139,13 +139,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + COUNTRIES + " WHERE name IS " + name;
         Cursor cursor = db.rawQuery(query, null);
+        Cursor secondCursor = db.rawQuery("SELECT * FROM " + COUNTRIES,null);
         if (cursor.moveToFirst()) {
             if (stat == R.id.elevationbutton) { // User selected elevation, query again over elevation range.
                 list.add("Countries with a similar elevation to the one you chose:");
                 int elevation = cursor.getInt(4);
                 String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE altitude BETWEEN "
                     + (elevation-200) + " AND " + (elevation+200);
-                Cursor secondCursor = db.rawQuery(secondQuery, null);
+                secondCursor = db.rawQuery(secondQuery, null);
                 if (secondCursor.moveToFirst()) {
                     do {
                         list.add(secondCursor.getString(5) + ", with an average elevation of "
@@ -156,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 list.add("Countries that speak the same language as the one you chose:");
                 String lang = cursor.getString(2);
                 String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE language = '" + lang + "'";
-                Cursor secondCursor = db.rawQuery(secondQuery, null);
+                secondCursor = db.rawQuery(secondQuery, null);
                 if (secondCursor.moveToFirst()) {
                     do {
                         list.add(secondCursor.getString(5));
@@ -167,7 +168,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int temperature = cursor.getInt(3);
                 String secondQuery = "SELECT * FROM " + COUNTRIES + " WHERE temperature BETWEEN "
                         + (temperature-5) + " AND " + (temperature+5);
-                Cursor secondCursor = db.rawQuery(secondQuery, null);
+                secondCursor = db.rawQuery(secondQuery, null);
                 if (secondCursor.moveToFirst()) {
                     do {
                         list.add(secondCursor.getString(5) + ", with an average yearly " +
@@ -175,13 +176,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     } while (secondCursor.moveToNext());
                 }
             }
+            secondCursor.close();
         } else list.add("No results found for that name.");
+        cursor.close();
         db.close();
         return list;
     }
 
-    public void setFavorite(String location) {
-        myDataBase.rawQuery("UPDATE " + COUNTRIES + " SET favorite = TRUE WHERE name = " + location,null).close();
+    public void setFavorite(String location, int reason) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + COUNTRIES + " SET favorite = 1 WHERE name = " + location);
+        db.execSQL("UPDATE " + COUNTRIES + " SET favorite_reason = " + reason + " WHERE name = " + location);
+        db.close();
     }
 
     public List<String> getFavorites() {
@@ -190,9 +196,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = myDataBase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                faveList.add(cursor.getString(0));
+                StringBuilder sb = new StringBuilder();
+                int id = cursor.getInt(6);
+                sb.append(cursor.getString(5) + ", with a " + getLegibleRadioButtonId(id)
+                        + " of " + cursor.getString(mapIdToColumnIndex(id)));
+                faveList.add(sb.toString());
             } while (cursor.moveToNext());
         }
         return faveList;
+    }
+
+    private int mapIdToColumnIndex(int id) {
+        switch (id) {
+            case R.id.languagebutton: return 2;
+            case R.id.temperaturebutton: return 3;
+            case R.id.elevationbutton: return 4;
+            default: return 0;
+        }
+    }
+
+    private String getLegibleRadioButtonId(int id) {
+        switch (id) {
+            case R.id.languagebutton: return "language";
+            case R.id.temperaturebutton: return "temperature";
+            case R.id.elevationbutton: return "elevation";
+            default: return null;
+        }
     }
 }

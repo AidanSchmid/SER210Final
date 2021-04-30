@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements ResultsFragment.D
     }
 
     @Override
-    public void setFavorite(String location) {
-        db.setFavorite(location);
+    public void setFavorite(String location, int reason) {
+        db.setFavorite(location, reason);
     }
 
     @Override

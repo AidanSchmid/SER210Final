@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ public class ResultsFragment extends Fragment implements View.OnClickListener {
     private int mParam2;
 
     private View ownView;
+    private Button favoriteButton;
 
     public ResultsFragment() {
         // Required empty public constructor
@@ -72,7 +74,7 @@ public class ResultsFragment extends Fragment implements View.OnClickListener {
     public interface DatabaseListener {
         MyAdapter fetchData(String param1, int param2);
 
-        void setFavorite(String param1);
+        void setFavorite(String param1, int param2);
     }
 
     @Override
@@ -98,10 +100,13 @@ public class ResultsFragment extends Fragment implements View.OnClickListener {
         adapter = listener.fetchData(mParam1, mParam2);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        favoriteButton = ownView.findViewById(R.id.button5);
+        favoriteButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        listener.setFavorite(ARG_PARAM1);
+        listener.setFavorite(mParam1, mParam2);
     }
 }

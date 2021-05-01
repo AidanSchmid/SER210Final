@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +39,7 @@ public class ResultsFragment extends Fragment implements View.OnClickListener {
 
     private View ownView;
     private Button favoriteButton;
-
+    private boolean h = false;
     public ResultsFragment() {
         // Required empty public constructor
     }
@@ -96,17 +97,27 @@ public class ResultsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        favoriteButton = ownView.findViewById(R.id.button5);
+        favoriteButton.setOnClickListener(this);
+        favoriteButton.setBackgroundResource(R.drawable.ic_baseline_star_border_24);
         recyclerView = ownView.findViewById(R.id.results_recycler);
         adapter = listener.fetchData(mParam1, mParam2);
         recyclerView.setAdapter(adapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        favoriteButton = ownView.findViewById(R.id.button5);
-        favoriteButton.setOnClickListener(this);
+
+
     }
+
+
 
     @Override
     public void onClick(View v) {
         listener.setFavorite(mParam1, mParam2);
+        if(v == favoriteButton) {
+            favoriteButton.setBackgroundDrawable
+                    (getResources().getDrawable(R.drawable.button_backgroun));
+        }
     }
 }

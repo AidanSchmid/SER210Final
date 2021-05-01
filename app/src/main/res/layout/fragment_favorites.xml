@@ -5,17 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavoritesFragment">>
+    tools:context=".FavoritesFragment"><![CDATA[>
+
+    ]]>
 
     <TextView
         android:id="@+id/textViewFavorites"
         android:layout_width="369dp"
         android:layout_height="42dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="22dp"
-        android:textSize="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
         android:text="Favorites!"
+        android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +25,8 @@
         android:id="@+id/faves_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="148dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/textViewFavorites" />
+        app:layout_constraintTop_toBottomOf="@id/textViewFavorites"
+        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

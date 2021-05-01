@@ -74,7 +74,7 @@ public class ResultsFragment extends Fragment implements View.OnClickListener {
     public interface DatabaseListener {
         MyAdapter fetchData(String param1, int param2);
 
-        void setFavorite(String param1, int param2);
+        void setFavorite(String param1, int param2); // putting a comment here to fix a bug.
     }
 
     @Override
